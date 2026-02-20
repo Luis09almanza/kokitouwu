@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Corazón Neón</title>
+
+<style>
+
+/* ================= VARIABLES DINÁMICAS ================= */
+:root{
+  --neon1:#ff007f;
+  --neon2:#ff4da6;
+  --neonGlow:#ffffff;
+}
+
+/* ================= BASE ================= */
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
+  background:#131313;
+  overflow:hidden;
+  font-family:Georgia, serif;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ================= CONTENEDOR ================= */
+.container{
+  position:relative;
+  width:600px;
+  height:600px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* ================= CORAZÓN ================= */
+.corazon{
+  position: relative;
+  width: 300px;
+  height: 270px;
+  background: var(--neon1);
+  transform: rotate(-45deg);
+  animation: latido 1.5s infinite;
+  box-shadow:
+    0 0 0px var(--neon1),
+    0 0 10px var(--neon1),
+    0 0 20px var(--neon1),
+    0 0 90px var(--neon1);
+  z-index:2;
+}
+
+.corazon::before,
+.corazon::after{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:270px;
+  background:var(--neon1);
+  border-radius:50%;
+  box-shadow:
+    0 0 50px var(--neon1),
+    0 0 10px var(--neon1),
+    0 0 10px var(--neon1),
+    0 0 10px var(--neon1);
+}
+
+.corazon::before{ top:-150px; left:0; }
+.corazon::after{ left:150px; top:0; }
+
+@keyframes latido{
+  0%,100%{ transform: rotate(-45deg) scale(1); }
+  50%{ transform: rotate(-45deg) scale(1.08); }
+}
+
+/* ================= FOTO ================= */
+.foto-latido{
+  position:absolute;
+  width:200px;
+  height:200px;
+  border-radius:50%;
+  overflow:hidden;
+  z-index:3;
+  animation: latidoFoto 1.5s infinite ease-in-out;
+  box-shadow:
+    0 0 15px var(--neonGlow),
+    0 0 40px var(--neon1);
+}
+
+.foto-latido img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+@keyframes latidoFoto{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.08); }
+}
+
+/* ================= MENSAJE ================= */
+.mensaje{
+
+  top:60px;
+  width:100%;
+  text-align:center;
+  font-size:42px;
+  font-weight:bold;
+  color:var(--neonGlow);
+  letter-spacing:3px;
+  z-index:5;
+  text-shadow:
+    0 0 10px var(--neonGlow),
+    0 0 25px var(--neon1),
+    0 0 50px var(--neon1);
+  animation: brillo 1s infinite alternate;
+}
+
+@keyframes brillo{
+  from{ opacity:0.8; }
+  to{ opacity:1; }
+}
+
+/* ================= ESTELA ================= */
+.cursor-heart{
+  position:absolute;
+  color:var(--neon2);
+  font-size:14px;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  animation:fadeHeart 0.8s linear forwards;
+  z-index: 9999;
+}
+
+@keyframes fadeHeart{
+  0%{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+  100%{ opacity:0; transform:translate(-50%,-70%) scale(1.5); }
+}
+
+/* ================= EXPLOSIÓN ================= */
+.click-heart{
+  position:absolute;
+  color:var(--neon1);
+  font-size:18px;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  animation:explode 1s ease-out forwards;
+  z-index: 9999;
+}
+
+@keyframes explode{
+  0%{ opacity:1; }
+  100%{
+    opacity:0;
+    transform:translate(-50%,-50%) translate(var(--x),var(--y)) scale(1.8);
+  }
+}
+
+
+/* ================= FOOTER ================= */
+#footer{
+  position:fixed;
+  bottom:20px;
+  width:100%;
+  text-align:center;
+  font-size:14px;
+  letter-spacing:2px;
+  color:rgba(255,255,255,0.5);
+}
+
+#footer a{
+  color:var(--neon2);
+  text-decoration:none;
+  transition:0.3s;
+}
+
+#footer a:hover{
+  color:var(--neonGlow);
+  text-shadow:0 0 10px var(--neon1);
+}
+
+/* ================= CORAZONES DE FONDO ================= */
+.mini{
+    position:absolute;
+    color:#ff66b2;
+    font-size:18px;
+    animation:volar 2s linear forwards;
+}
+
+@keyframes volar{
+    0%{ opacity:1; transform:translateY(0) scale(1); }
+    100%{ opacity:0; transform:translateY(-80px) scale(1.5); }
+}
+
+.fondo-heart{
+    position:absolute;
+    color:#ff66b2;
+    font-size:20px;
+    animation:flotar 8s linear infinite;
+    opacity:0.4;
+}
+
+@keyframes flotar{
+    0%{ transform:translateY(100vh); }
+    100%{ transform:translateY(-10vh); }
+}
+
+/* ================= MODAL ================= */
+
+#modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter: blur(10px);
+  display:flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  visibility:hidden;
+  transition:0.4s ease;
+  z-index:99999;
+}
+
+#modal.activo{
+  opacity:1;
+  visibility:visible;
+}
+
+.modal-contenido{
+  max-width:900px;
+  max-height:80vh;
+  overflow:auto;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap:20px;
+  padding:30px;
+}
+
+.modal-contenido img{
+  width:100%;
+  border-radius:15px;
+  box-shadow:0 0 10px var(--neon1);
+  transition:0.3s;
+}
+
+.modal-contenido img:hover{
+  transform:scale(1.05);
+}
+
+#cerrar{
+  position:absolute;
+  top:30px;
+  right:40px;
+  font-size:40px;
+  color:white;
+  cursor:pointer;
+}
+
+.modal-title{
+  grid-column: 1 / -1;   /* 👈 ocupa todas las columnas */
+  text-align: center;
+  font-size: 28px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+
+
+/* ================= TITULO ================= */
+.main-title {
+  text-align: center;
+  font-size: clamp(28px, 6vw, 60px);
+  margin-top: 30px;
+  margin-bottom: 40px;
+  letter-spacing: 3px;
+  font-weight: bold;
+  color: #fff;
+  
+
+  text-shadow:
+    0 0 5px (--neon1),
+    0 0 15px (--neon1),
+    0 0 25px (--neon2),
+    0 0 45px (--neon2);
+
+
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow:
+      0 0 5px (--neon1),
+      0 0 15px (--neon1),
+      0 0 25px (--neon2);
+  }
+  to {
+    text-shadow:
+      0 0 10px (--neon1),
+      0 0 25px (--neon1),
+      0 0 45px (--neon2),
+      0 0 65px (--neon2);
+  }
+}
+
+.sub-title {
+  text-align: center;
+  font-size: clamp(14px, 6vw, 30px);
+  margin-top: 30px;
+  margin-bottom: 100px;
+  letter-spacing: 3px;
+  font-weight: bold;
+  color: #fff;
+  
+
+  text-shadow:
+    0 0 5px (--neon1),
+    0 0 15px (--neon1),
+    0 0 25px (--neon2),
+    0 0 45px (--neon2);
+
+
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow:
+      0 0 5px (--neon1),
+      0 0 15px (--neon1),
+      0 0 25px (--neon2);
+  }
+  to {
+    text-shadow:
+      0 0 10px (--neon1),
+      0 0 25px (--neon1),
+      0 0 45px (--neon2),
+      0 0 65px (--neon2);
+  }
+}
+
+
+
+
+</style>
+</head>
+
+<body>
+
+
+
+<div class="fondo-corazones">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<h1 class="main-title">PARA LA MEJOR NOVIA DEL MUNDO 💖</h1>
+<h1 class="mensaje">TE AMO KOKITO UWU</h1>
+
+<div class="container">
+  <div class="corazon">
+  </div>
+  <div class="foto-latido">
+    <img src="https://scontent-qro1-1.xx.fbcdn.net/v/t39.30808-6/638468910_1434011461595169_1715681505981549019_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=1d70fc&_nc_eui2=AeEbcBkHr2sYN4chwDJRRaO8OeFYZwBsx1Q54VhnAGzHVAlHvh32w98T2sphWEk1QD7Dg1qCaUOnDuy1TfIcn17m&_nc_ohc=hDFvZAYrdmIQ7kNvwEdqZz8&_nc_oc=Adlj5LNDbTqYoaHPDSd3AeJJXUMGWyQxHercpI_gTEkG-5tVxThbAXBgLJCLm_doz7I&_nc_zt=23&_nc_ht=scontent-qro1-1.xx&_nc_gid=2byF0juFEgeeeUQ4WR8fWw&oh=00_AfswsR979FB3ulvfeFRGRso9fnXcxxBbs_p5tA3kOwOirw&oe=699DBC1D">
+  </div>
+</div>
+
+<h3 class="sub-title">Haz click en kokitouwu</h3>
+
+<footer id="footer">
+  Creado por 
+  <a href="https://www.instagram.com/mr.crowleyxd/" target="_blank">
+    Luis Almanza (Mr.Crowleyxd)
+  </a>
+</footer>
+
+<div id="modal">
+  <div class="modal-contenido">
+    <span id="cerrar">&times;</span>
+      <h2 class="modal-title">
+        SIGAMOS HACIENDO RECUERDOS JUNTOS 💖
+      </h2>
+      <img src="FOTO1.jpg">
+      <img src="FOTO2.jpg">
+      <img src="FOTO3.jpg">
+      <img src="FOTO4.jpg">
+      <img src="FOTO5.jpg">
+      <img src="FOTO6.jpg">
+      <img src="FOTO11.jpg">
+      <img src="FOTO12.jpg">
+      <img src="FOTO7.jpg">
+      <img src="FOTO8.jpg">
+      <img src="FOTO9.jpg">
+      <img src="FOTO10.jpg">
+  </div>
+</div>
+
+<script>
+
+/* ================= COLORES NEÓN DINÁMICOS ================= */
+const neonPaletas = [
+  ["#ff00cc","#ff66ff"],
+  ["#00f0ff","#00ffff"],
+  ["#39ff14","#00ff99"],
+  ["#ff3131","#ff914d"],
+  ["#8a2be2","#ff00ff"]
+];
+
+const paleta = neonPaletas[Math.floor(Math.random()*neonPaletas.length)];
+
+document.documentElement.style.setProperty('--neon1', paleta[0]);
+document.documentElement.style.setProperty('--neon2', paleta[1]);
+
+/* ================= ESTELA CONTROLADA ================= */
+let ultimoTiempo = 0;
+
+document.addEventListener("mousemove", function(e){
+  const ahora = Date.now();
+  if(ahora - ultimoTiempo < 120) return;
+  ultimoTiempo = ahora;
+
+  const heart = document.createElement("div");
+  heart.className = "cursor-heart";
+  heart.innerHTML = "❤";
+
+  const offsetX = (Math.random() - 0.5) * 20;
+  const offsetY = (Math.random() - 0.5) * 20;
+
+  heart.style.left = (e.pageX + offsetX) + "px";
+  heart.style.top = (e.pageY + offsetY) + "px";
+
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),800);
+});
+
+/* ================= EXPLOSIÓN ================= */
+document.addEventListener("click", function(e){
+  for(let i=0;i<12;i++){
+    const heart = document.createElement("div");
+    heart.className = "click-heart";
+    heart.innerHTML = "❤";
+    heart.style.left = e.pageX + "px";
+    heart.style.top = e.pageY + "px";
+
+    const x = (Math.random()-0.5)*180;
+    const y = (Math.random()-0.5)*180;
+
+    heart.style.setProperty("--x", x + "px");
+    heart.style.setProperty("--y", y + "px");
+
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),1000);
+  }
+});
+
+/* ================= FONDO DE CORAZONES ================= */
+function crearFondo(){
+    const heart = document.createElement("div");
+    heart.classList.add("fondo-heart");
+    heart.innerHTML="❤";
+    heart.style.left=Math.random()*window.innerWidth+"px";
+    heart.style.fontSize=(Math.random()*20+10)+"px";
+    heart.style.animationDuration=(Math.random()*5+5)+"s";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),8000);
+}
+
+setInterval(crearFondo,500);
+
+
+/* ================= MODAL ================= */
+const foto = document.querySelector(".foto-latido");
+const modal = document.getElementById("modal");
+const cerrar = document.getElementById("cerrar");
+
+foto.addEventListener("click", function(e){
+  e.stopPropagation(); // evita que active explosión si no quieres
+  modal.classList.add("activo");
+});
+
+// Cerrar modal
+cerrar.addEventListener("click", function(){
+  modal.classList.remove("activo");
+});
+
+// Cerrar si se da click fuera
+modal.addEventListener("click", function(e){
+  if(e.target === modal){
+    modal.classList.remove("activo");
+  }
+});
+
+</script>
+
+</body>
+</html>
