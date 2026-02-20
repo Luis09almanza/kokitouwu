@@ -387,6 +387,10 @@ body {
 
 <h3 class="sub-title">Haz click en kokitouwu</h3>
 
+<audio id="musica" autoplay loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
 <footer id="footer">
   Creado por 
   <a href="https://www.instagram.com/mr.crowleyxd/" target="_blank">
@@ -416,6 +420,25 @@ body {
 </div>
 
 <script>
+
+/* ================= MUSICA ================= */
+  const musica = document.getElementById("musica");
+
+  document.addEventListener("click", () => {
+    musica.volume = 0;     // empieza en silencio
+    musica.play();
+
+    let volumen = 0;
+    const fade = setInterval(() => {
+      if (volumen < 1) {
+        volumen += 0.02;   // velocidad de subida
+        musica.volume = volumen;
+      } else {
+        clearInterval(fade);
+      }
+    }, 100); // cada 100ms
+  }, { once: true });
+
 
 /* ================= COLORES NEÓN DINÁMICOS ================= */
 const neonPaletas = [
